@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="fil">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Happy Teachers' Day!</title>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Playfair+Display:wght@600&family=Nunito:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root { --night1:#0f1b3d; --night2:#27386b; --gold:#f5d98b; --paper:#fffaf0; --ink:#3b3350; }
+  * { box-sizing:border-box; }
+  body {
+    margin:0; min-height:100vh; padding:20px 16px 40px;
+    background:linear-gradient(180deg,var(--night1),var(--night2));
+    font-family:"Nunito",system-ui,sans-serif; color:#fff;
+    display:flex; flex-direction:column; align-items:center; gap:22px;
+    position:relative; overflow-x:hidden;
+  }
+  .stars, .stars::after {
+    content:""; position:fixed; inset:0; pointer-events:none;
+    background-image:
+      radial-gradient(2px 2px at 20px 30px,#fff,transparent),
+      radial-gradient(2px 2px at 90px 120px,var(--gold),transparent),
+      radial-gradient(1.5px 1.5px at 160px 60px,#fff,transparent),
+      radial-gradient(2px 2px at 240px 180px,#fff,transparent),
+      radial-gradient(1.5px 1.5px at 300px 90px,var(--gold),transparent);
+    background-size:320px 220px;
+    animation:twinkle 4s ease-in-out infinite alternate;
+  }
+  .stars::after { background-position:150px 100px; animation-delay:2s; }
+  @keyframes twinkle { from{opacity:.35} to{opacity:1} }
+
+  main { width:100%; max-width:400px; text-align:center; position:relative; z-index:1; }
+  .player {
+    background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.25);
+    border-radius:999px; padding:10px 14px; margin-bottom:30px;
+  }
+  .player p { margin:0 0 6px; font-size:.9rem; }
+  audio { width:100%; height:36px; }
+
+  .icon { font-size:5rem; margin:10px 0 14px; filter:drop-shadow(0 0 18px rgba(245,217,139,.6)); }
+  h1 { font:600 clamp(1.8rem,8vw,2.4rem)/1.2 "Playfair Display",serif; color:var(--gold); margin:0 0 6px; }
+  .sub { margin:0 0 22px; opacity:.85; }
+  button {
+    background:var(--gold); color:#2a2140; border:0; border-radius:12px;
+    padding:.85em 1.6em; font:700 1rem Nunito,sans-serif; cursor:pointer;
+  }
+  button:focus-visible { outline:3px solid #fff; outline-offset:3px; }
+
+  .letter {
+    background:var(--paper); color:var(--ink); border-radius:6px; margin-top:22px;
+    padding:0 22px; max-height:0; overflow:hidden; opacity:0; text-align:left;
+    transition:max-height .7s ease, opacity .5s ease, padding .5s ease;
+    box-shadow:0 10px 26px rgba(0,0,0,.4);
+  }
+  .letter.open { max-height:1200px; opacity:1; padding:24px 22px; }
+  .letter .to { font:700 1.7rem Caveat,cursive; margin:0 0 8px; }
+  .letter .body { font:500 1.35rem/1.55 Caveat,cursive; margin:0 0 14px; }
+  .letter .from { font:700 1.6rem Caveat,cursive; margin:0; text-align:right; }
+  @media (prefers-reduced-motion:reduce) { .stars,.stars::after{animation:none} .letter{transition:none} }
+</style>
+</head>
+<body>
+<div class="stars"></div>
+
+<main>
+  <div class="player">
+    <p>🎵 Play Music</p>
+    <audio controls loop src="music.mp3"></audio>
+  </div>
+
+  <div class="icon" aria-hidden="true">🍎</div>
+  <h1 id="title"></h1>
+  <p class="sub">May munting sulat para sa inyo.</p>
+  <button id="toggle" aria-expanded="false" aria-controls="letter">Buksan ang sulat</button>
+
+  <div class="letter" id="letter">
+    <p class="to" id="to"></p>
+    <p class="body" id="text"></p>
+    <p class="from" id="from"></p>
+  </div>
+</main>
+
+<script>
+  // ✏️ BAGUHIN DITO
+  const TITLE   = "Happy Teachers' Day!";
+  const TO      = "Para kay Ma'am Mari,";
+  const FROM    = "– Ang inyong mga estudyante";
+  const MESSAGE = "Maraming salamat po sa walang sawang malasakit sa amin. Ramdam po namin na hindi lang ito trabaho para sa inyo, kundi dahil gusto ninyo kaming matuto at lumago. Pinahahalagahan po namin ang bawat effort ninyo. Salamat po sa paggabay sa amin tungo sa mas magandang kinabukasan!";
+
+  document.getElementById("title").textContent = TITLE;
+  document.getElementById("to").textContent = TO;
+  document.getElementById("from").textContent = FROM;
+  document.getElementById("text").textContent = MESSAGE;
+
+  const btn = document.getElementById("toggle");
+  const letter = document.getElementById("letter");
+  btn.addEventListener("click", () => {
+    const open = letter.classList.toggle("open");
+    btn.setAttribute("aria-expanded", open);
+    btn.textContent = open ? "Isara ang sulat" : "Buksan ang sulat";
+    if (open) letter.scrollIntoView({ behavior:"smooth", block:"nearest" });
+  });
+</script>
+</body>
+</html>
